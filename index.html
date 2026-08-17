@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Landscape | 2024/2025 Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+
+    <!-- Navigation -->
+    <nav class="border-b border-slate-800 bg-slate-950/50 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">AI Model Explorer</h1>
+            <div class="space-x-6 text-sm font-medium">
+                <a href="#models" class="hover:text-white transition">Models</a>
+                <a href="#use-cases" class="hover:text-white transition">Use Cases</a>
+                <a href="#recommendations" class="hover:text-white transition">Quick Guide</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-6xl mx-auto px-4 py-20 text-center">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6">The <span class="gradient-text">Model Landscape</span></h1>
+        <p class="text-lg text-slate-400 max-w-2xl mx-auto">Identifying the top AI models, their underlying data characteristics, and their best real-world applications for engineering, design, and beyond.</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 pb-24">
+        
+        <!-- Models Table Section -->
+        <section id="models" class="mb-32">
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-3xl font-bold text-white">Top 10 AI Models</h2>
+                <span class="px-3 py-1 rounded-full bg-purple-900/30 border border-purple-500/50 text-xs font-semibold uppercase tracking-widest">Current Generation</span>
+            </div>
+            <div class="overflow-x-auto bg-slate-900/50 border border-slate-800 rounded-xl p-4 shadow-2xl">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800">
+                            <th class="p-4 font-semibold text-slate-400">Model Name</th>
+                            <th class="p-4 font-semibold text-slate-400">Developer</th>
+                            <th class="p-4 font-semibold text-slate-400">Estimated Data Components</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">GPT-4o</td>
+                            <td class="p-4 text-purple-400">OpenAI</td>
+                            <td class="p-4 text-sm">Common Crawl, Books, Licensed data, Multimodal (Image/Audio)</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Claude 3.5 Sonnet</td>
+                            <td class="p-4 text-purple-400">Anthropic</td>
+                            <td class="p-4 text-sm">Constitutional AI, High-quality Web, Textbooks, Coding Repos</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Gemini 1.5 Pro</td>
+                            <td class="p-4 text-purple-400">Google</td>
+                            <td class="p-4 text-sm">YouTube transcripts, Google Search Index, Large Context Optimization</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Llama 3.1 (405B)</td>
+                            <td class="p-4 text-purple-400">Meta</td>
+                            <td class="p-4 text-sm">Web data, Synthetic "Reasoning" tracks, Multilingual content</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Mistral Large 2</td>
+                            <td class="p-4 text-purple-400">Mistral AI</td>
+                            <td class="p-4 text-sm">High-density data, Multi-lingual reasoning focus, Code optimization</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Phi-3 / Phi-4</td>
+                            <td class="p-4 text-purple-400">Microsoft</td>
+                            <td class="p-4 text-sm">"Textbook-quality" synthetic data for small parameters</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">DeepSeek V3</td>
+                            <td class="p-4 text-purple-400">DeepSeek</td>
+                            <td class="p-4 text-sm">GitHub Repos, Math reasoning chains, Code focus</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Grok-2</td>
+                            <td class="p-4 text-purple-400">xAI</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Qwen 2.5</td>
+                            <td class="p-4 text-purple-400">Alibaba</td>
+                            <td class="p-4 text-sm">Chinese language datasets, Code data, Multilingual corpus</td>
+                        </tr>
+                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
+                            <td class="p-4 font-bold">Jamba 1.5</td>
+                            <td class="p-4 text-purple-400">AI21</td>
+                            <td class="p-4 text-sm">Mamba/Transformer hybrid, Web text, Code, Math</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section id="use-cases" class="mb-32">
+            <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-3xl font-bold text-white">Performance by Category</h2>
+                <p class="text-slate-400">Which model excels in your specific workflow?</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- General Purpose -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition group">
+                    <div class="h-12 w-12 bg-purple-600/20 text-purple-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-purple-600 group-hover:text-white transition">GP</div>
+                    <h3 class="font-bold text-xl mb-2">General Purpose</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Broad knowledge, multimodal capabilities, and instruction following.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800">
+                        <span class="text-xs font-bold uppercase tracking-widest">Best:</span> <br>
+                        <span class="text-sm text-purple-300">GPT-4o, Gemini 1.5 Pro</span>
+                    </div>
+                </div>
+
+                <!-- Engineering -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition group">
+                    <div class="h-12 w-12 bg-blue-600/20 text-blue-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-blue-600 group-hover:text-white transition">EN</div>
+                    <h3 class="font-bold text-xl mb-2">Engineering</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Complex logic, strict syntax adherence, and high coding accuracy.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800">
+                        <span class="text-xs font-bold uppercase tracking-widest">Best:</span> <br>
+                        <span class="text-sm text-blue-300">Claude 3.5 Sonnet, DeepSeek V3</span>
+                    </div>
+                </div>
+
+                <!-- UI/UX -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-pink-500/50 transition group">
+                    <div class="h-12 w-12 bg-pink-600/20 text-pink-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-pink-600 group-hover:text-white transition">UI</div>
+                    <h3 class="font-bold text-xl mb-2">UI/UX & Creative</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Visual description, SVG generation, and frontend component prototyping.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800">
+                        <span class="text-xs font-bold uppercase tracking-wided">Best:</span> <br>
+                        <span class="text-sm text-pink-300">GPT-4o, Claude 3.5 Sonnet</span>
+                    </div>
+                </div>
+
+                <!-- Math/Logic -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition group">
+                    <div class="h-12 w-12 bg-emerald-600/20 text-emerald-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-emerald-600 group-hover:text-white transition">ML</div>
+                    <h3 class="font-bold text-xl mb-2">Math & Logic</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">Advanced reasoning chains and complex mathematical problem solving.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800">
+                        <span class="text-xs font-bold uppercase tracking-wided">Best:</span> <br>
+                        <span class="text-sm text-emerald-300">Llama 3.1, DeepSeek V3</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommendations Section -->
+        <section id="recommendations" class="bg-gradient-to-b from-slate-900 to-black p-8 md:p-16 rounded-3xl border border-slate-800">
+            <h2 class="text-3xl font-bold mb-8 text-white">Quick Summary Guide</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-slate-700">
+                            <th class="py-4 px-2 font-semibold">Requirement</th>
+                            <th class="py-4 px-2 font-semibold text-purple-400">Top Pick</th>
+                            <th class="py-4 px-2 font-semibold">Reasoning</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-300">
+                        <tr class="border-b border-slate-800/50">
+                            <td class="p-4">General Assistant</td>
+                            <td class="p-4 font-bold text-white">GPT-4o</td>
+                            <td class="p-4 text-sm">Best versatility and multi-modal integration.</td>
+                        </tr>
+                        <tr class="border-b border-slate-800/50">
+                            <td class="p-4">Coding/Engineering</td>
+                            <td class="p-4 font-bold text-white">Claude 3.5 Sonnet</td>
+                            <td class="p-4 text-sm">Highest "one-shot" logic accuracy for complex scripts.</td>
+                        </tr>
+                        <tr class="border-b border-slate-800/50">
+                            <td class="p-4">Large Data Analysis</td>
+                            <td class="p-4 font-bold text-white">Gemini 1.5 Pro</td>
+                            <td class="p-4 text-sm">Massive context window (up to 2M tokens).</td>
+                        </tr>
+                        <tr class="border-b border-slate-800/50">
+                            <td class="p-4">Local / Open Source</td>
+                            <td class="p-4 font-bold text-white">Llama 3.1 (70B)</td>
+                            <td class="p-4 text-sm">High performance for local, private hosting.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4">Math/Logic Heavy</td>
+                            <td class="p-4 font-bold text-white">DeepSeek V3</td>
+                            <td class="p-4 text-sm">Optimized reasoning paths for complex logic.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800 py-12 text-center">
+        <p class="text-sm text-slate-500">Generated Analysis &bull; 2024/2025 AI Roadmap</p>
+    </footer>
+
+</body>
+</html>
