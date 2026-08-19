@@ -1,217 +1,337 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Model Landscape | 2024/2025 Guide</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-text {
-            background: linear-gradient(90deg, #8b5cf6, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evidence-based guide to AI model training corpora, transparency, and current model selection.">
+  <title>AI Model Evidence Guide</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08110f;
+      --panel: #0d1a17;
+      --panel-2: #12231f;
+      --line: #254039;
+      --text: #edf7f2;
+      --muted: #9fb8ae;
+      --mint: #65e6b4;
+      --gold: #f6c96b;
+      --rose: #f58c93;
+      --blue: #8ec9ff;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 15% -10%, rgba(101, 230, 180, .13), transparent 32rem),
+        radial-gradient(circle at 90% 12%, rgba(142, 201, 255, .09), transparent 26rem),
+        var(--bg);
+      color: var(--text);
+      font: 400 16px/1.65 "DM Sans", sans-serif;
+    }
+    a { color: var(--mint); text-underline-offset: 3px; }
+    a:hover { color: #a7f5d6; }
+    button, select { font: inherit; }
+    .wrap { width: min(calc(100% - 2rem), var(--max)); margin-inline: auto; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(101, 230, 180, .14);
+      background: rgba(8, 17, 15, .88);
+      backdrop-filter: blur(18px);
+    }
+    .nav-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand { color: var(--text); font-weight: 700; text-decoration: none; letter-spacing: -.02em; }
+    .brand span { color: var(--mint); }
+    .nav-links { display: flex; gap: 1.25rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+    header { padding: 7rem 0 5rem; }
+    .hero-grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 3rem; align-items: end; }
+    .kicker, .eyebrow {
+      margin: 0 0 .65rem;
+      color: var(--mint);
+      font: 500 .75rem/1.4 "IBM Plex Mono", monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { line-height: 1.08; letter-spacing: -.04em; }
+    h1 { max-width: 820px; margin: 0; font-size: clamp(3rem, 8vw, 6.6rem); }
+    h1 em { color: var(--mint); font-style: normal; }
+    .lede { max-width: 730px; margin: 1.5rem 0 0; color: var(--muted); font-size: 1.15rem; }
+    .as-of {
+      border-left: 2px solid var(--mint);
+      padding-left: 1.25rem;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .as-of strong { display: block; color: var(--text); font-size: 1.05rem; }
+    main section { padding: 5rem 0; }
+    .section-head { max-width: 760px; margin-bottom: 2rem; }
+    h2 { margin: 0 0 1rem; font-size: clamp(2rem, 5vw, 3.7rem); }
+    .section-head > p { color: var(--muted); margin: 0; }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .principle, .method-card {
+      padding: 1.5rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(18, 35, 31, .9), rgba(13, 26, 23, .75));
+    }
+    .principle strong { display: block; margin-bottom: .45rem; font-size: 1.05rem; }
+    .principle p { margin: 0; color: var(--muted); font-size: .93rem; }
+    .advisor-shell {
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      border: 1px solid rgba(101, 230, 180, .35);
+      border-radius: 24px;
+      background: rgba(13, 26, 23, .82);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, .24);
+    }
+    .advisor-control { padding: 1.25rem; }
+    label { display: block; margin-bottom: .65rem; font-weight: 600; }
+    select {
+      width: 100%;
+      padding: .9rem 2.5rem .9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel-2);
+      color: var(--text);
+    }
+    .advisor-note { margin: 1rem 0 0; color: var(--muted); font-size: .86rem; }
+    #advisor-result {
+      min-height: 220px;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 2rem;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #18352d, #10241f);
+    }
+    #advisor-result h3 { margin: 0 0 .8rem; font-size: clamp(2rem, 4vw, 3.2rem); }
+    #advisor-result p { max-width: 620px; margin: 0; color: #c3d8d0; }
+    .advisor-result__meta { display: flex; flex-direction: column; align-items: flex-end; gap: .75rem; white-space: nowrap; }
+    .legend { display: flex; flex-wrap: wrap; gap: .65rem; margin: 1.25rem 0 2rem; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      padding: .38rem .7rem;
+      border: 1px solid;
+      border-radius: 999px;
+      font: 500 .72rem/1.2 "IBM Plex Mono", monospace;
+      white-space: nowrap;
+    }
+    .badge-full { color: var(--mint); border-color: rgba(101, 230, 180, .42); background: rgba(101, 230, 180, .09); }
+    .badge-partial { color: var(--gold); border-color: rgba(246, 201, 107, .42); background: rgba(246, 201, 107, .08); }
+    .badge-minimal { color: var(--rose); border-color: rgba(245, 140, 147, .42); background: rgba(245, 140, 147, .08); }
+    #model-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .model-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 510px;
+      padding: 1.6rem;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(13, 26, 23, .82);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .model-card:hover { transform: translateY(-3px); border-color: rgba(101, 230, 180, .48); }
+    .model-card__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .model-card h3 { margin: 0; font-size: 1.75rem; }
+    .access { margin: .8rem 0 1rem; color: var(--blue); font-size: .86rem; }
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      padding: .75rem 0;
+      border-block: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .88rem;
+    }
+    .score-row strong { color: var(--text); }
+    .corpus { margin: 1.2rem 0 .75rem; font-size: 1.02rem; }
+    .evidence, .best { color: var(--muted); font-size: .9rem; }
+    .evidence strong, .best strong { color: var(--text); }
+    .source-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem 1rem;
+      margin-top: auto;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line);
+      font-size: .82rem;
+    }
+    .method-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .method-card h3 { margin: 0 0 .8rem; font-size: 1.35rem; }
+    .method-card p, .method-card li { color: var(--muted); font-size: .93rem; }
+    .method-card ul { padding-left: 1.2rem; }
+    .method-card li + li { margin-top: .6rem; }
+    .callout {
+      margin-top: 1rem;
+      padding: 1rem 1.15rem;
+      border-left: 3px solid var(--gold);
+      background: rgba(246, 201, 107, .06);
+      color: #e8d9b7;
+      font-size: .9rem;
+    }
+    footer { padding: 3rem 0 4rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 2rem; }
+    @media (max-width: 840px) {
+      .hero-grid, .advisor-shell { grid-template-columns: 1fr; }
+      .principles { grid-template-columns: 1fr; }
+      #advisor-result { flex-direction: column; }
+      .advisor-result__meta { align-items: flex-start; }
+      #model-list, .method-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 540px) {
+      header { padding-top: 4.5rem; }
+      main section { padding: 3.5rem 0; }
+      .model-card__top { flex-direction: column; }
+      .model-card { min-height: 0; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-200">
-
-    <!-- Navigation -->
-    <nav class="border-b border-slate-800 bg-slate-950/50 sticky top-0 z-50 backdrop-blur-md">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">AI Model Explorer</h1>
-            <div class="space-x-6 text-sm font-medium">
-                <a href="#models" class="hover:text-white transition">Models</a>
-                <a href="#use-cases" class="hover:text-white transition">Use Cases</a>
-                <a href="#recommendations" class="hover:text-white transition">Quick Guide</a>
-            </div>
+<body>
+  <nav aria-label="Primary navigation">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#">AI Model <span>Evidence Guide</span></a>
+      <div class="nav-links">
+        <a href="#advisor">Advisor</a>
+        <a href="#models">Corpus evidence</a>
+        <a href="#method">Method</a>
+      </div>
+    </div>
+  </nav>
+  <header>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">Corpus · capability · confidence</p>
+        <h1>Know what is <em>known</em> about AI training data.</h1>
+        <p class="lede">A current model guide that separates downloadable corpora from broad vendor disclosures—and keeps independent performance evidence separate from provenance.</p>
+      </div>
+      <div class="as-of">
+        <strong>Evidence reviewed August 18, 2026</strong>
+        Model releases and benchmarks move quickly. Follow the linked primary sources before making a high-stakes deployment decision.
+      </div>
+    </div>
+  </header>
+  <main>
+    <section aria-labelledby="read-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Read the labels correctly</p>
+          <h2 id="read-title">“Open” is not one thing.</h2>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="max-w-6xl mx-auto px-4 py-20 text-center">
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6">The <span class="gradient-text">Model Landscape</span></h1>
-        <p class="text-lg text-slate-400 max-w-2xl mx-auto">Identifying the top AI models, their underlying data characteristics, and their best real-world applications for engineering, design, and beyond.</p>
-    </header>
-
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 pb-24">
-        
-        <!-- Models Table Section -->
-        <section id="models" class="mb-32">
-            <div class="flex items-center gap-4 mb-8">
-                <h2 class="text-3xl font-bold text-white">Top 10 AI Models</h2>
-                <span class="px-3 py-1 rounded-full bg-purple-900/30 border border-purple-500/50 text-xs font-semibold uppercase tracking-widest">Current Generation</span>
-            </div>
-            <div class="overflow-x-auto bg-slate-900/50 border border-slate-800 rounded-xl p-4 shadow-2xl">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b border-slate-800">
-                            <th class="p-4 font-semibold text-slate-400">Model Name</th>
-                            <th class="p-4 font-semibold text-slate-400">Developer</th>
-                            <th class="p-4 font-semibold text-slate-400">Estimated Data Components</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">GPT-4o</td>
-                            <td class="p-4 text-purple-400">OpenAI</td>
-                            <td class="p-4 text-sm">Common Crawl, Books, Licensed data, Multimodal (Image/Audio)</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Claude 3.5 Sonnet</td>
-                            <td class="p-4 text-purple-400">Anthropic</td>
-                            <td class="p-4 text-sm">Constitutional AI, High-quality Web, Textbooks, Coding Repos</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Gemini 1.5 Pro</td>
-                            <td class="p-4 text-purple-400">Google</td>
-                            <td class="p-4 text-sm">YouTube transcripts, Google Search Index, Large Context Optimization</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Llama 3.1 (405B)</td>
-                            <td class="p-4 text-purple-400">Meta</td>
-                            <td class="p-4 text-sm">Web data, Synthetic "Reasoning" tracks, Multilingual content</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Mistral Large 2</td>
-                            <td class="p-4 text-purple-400">Mistral AI</td>
-                            <td class="p-4 text-sm">High-density data, Multi-lingual reasoning focus, Code optimization</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Phi-3 / Phi-4</td>
-                            <td class="p-4 text-purple-400">Microsoft</td>
-                            <td class="p-4 text-sm">"Textbook-quality" synthetic data for small parameters</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">DeepSeek V3</td>
-                            <td class="p-4 text-purple-400">DeepSeek</td>
-                            <td class="p-4 text-sm">GitHub Repos, Math reasoning chains, Code focus</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Grok-2</td>
-                            <td class="p-4 text-purple-400">xAI</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Qwen 2.5</td>
-                            <td class="p-4 text-purple-400">Alibaba</td>
-                            <td class="p-4 text-sm">Chinese language datasets, Code data, Multilingual corpus</td>
-                        </tr>
-                        <tr class="border-b border-slate-800 hover:bg-white/5 transition">
-                            <td class="p-4 font-bold">Jamba 1.5</td>
-                            <td class="p-4 text-purple-400">AI21</td>
-                            <td class="p-4 text-sm">Mamba/Transformer hybrid, Web text, Code, Math</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Use Cases -->
-        <section id="use-cases" class="mb-32">
-            <div class="flex items-center gap-4 mb-8">
-                <h2 class="text-3xl font-bold text-white">Performance by Category</h2>
-                <p class="text-slate-400">Which model excels in your specific workflow?</p>
-            </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- General Purpose -->
-                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition group">
-                    <div class="h-12 w-12 bg-purple-600/20 text-purple-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-purple-600 group-hover:text-white transition">GP</div>
-                    <h3 class="font-bold text-xl mb-2">General Purpose</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">Broad knowledge, multimodal capabilities, and instruction following.</p>
-                    <div class="mt-4 pt-4 border-t border-slate-800">
-                        <span class="text-xs font-bold uppercase tracking-widest">Best:</span> <br>
-                        <span class="text-sm text-purple-300">GPT-4o, Gemini 1.5 Pro</span>
-                    </div>
-                </div>
-
-                <!-- Engineering -->
-                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition group">
-                    <div class="h-12 w-12 bg-blue-600/20 text-blue-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-blue-600 group-hover:text-white transition">EN</div>
-                    <h3 class="font-bold text-xl mb-2">Engineering</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">Complex logic, strict syntax adherence, and high coding accuracy.</p>
-                    <div class="mt-4 pt-4 border-t border-slate-800">
-                        <span class="text-xs font-bold uppercase tracking-widest">Best:</span> <br>
-                        <span class="text-sm text-blue-300">Claude 3.5 Sonnet, DeepSeek V3</span>
-                    </div>
-                </div>
-
-                <!-- UI/UX -->
-                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-pink-500/50 transition group">
-                    <div class="h-12 w-12 bg-pink-600/20 text-pink-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-pink-600 group-hover:text-white transition">UI</div>
-                    <h3 class="font-bold text-xl mb-2">UI/UX & Creative</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">Visual description, SVG generation, and frontend component prototyping.</p>
-                    <div class="mt-4 pt-4 border-t border-slate-800">
-                        <span class="text-xs font-bold uppercase tracking-wided">Best:</span> <br>
-                        <span class="text-sm text-pink-300">GPT-4o, Claude 3.5 Sonnet</span>
-                    </div>
-                </div>
-
-                <!-- Math/Logic -->
-                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition group">
-                    <div class="h-12 w-12 bg-emerald-600/20 text-emerald-400 flex items-center justify-center rounded-lg mb-4 font-bold group-hover:bg-emerald-600 group-hover:text-white transition">ML</div>
-                    <h3 class="font-bold text-xl mb-2">Math & Logic</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">Advanced reasoning chains and complex mathematical problem solving.</p>
-                    <div class="mt-4 pt-4 border-t border-slate-800">
-                        <span class="text-xs font-bold uppercase tracking-wided">Best:</span> <br>
-                        <span class="text-sm text-emerald-300">Llama 3.1, DeepSeek V3</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Recommendations Section -->
-        <section id="recommendations" class="bg-gradient-to-b from-slate-900 to-black p-8 md:p-16 rounded-3xl border border-slate-800">
-            <h2 class="text-3xl font-bold mb-8 text-white">Quick Summary Guide</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="border-b border-slate-700">
-                            <th class="py-4 px-2 font-semibold">Requirement</th>
-                            <th class="py-4 px-2 font-semibold text-purple-400">Top Pick</th>
-                            <th class="py-4 px-2 font-semibold">Reasoning</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-slate-300">
-                        <tr class="border-b border-slate-800/50">
-                            <td class="p-4">General Assistant</td>
-                            <td class="p-4 font-bold text-white">GPT-4o</td>
-                            <td class="p-4 text-sm">Best versatility and multi-modal integration.</td>
-                        </tr>
-                        <tr class="border-b border-slate-800/50">
-                            <td class="p-4">Coding/Engineering</td>
-                            <td class="p-4 font-bold text-white">Claude 3.5 Sonnet</td>
-                            <td class="p-4 text-sm">Highest "one-shot" logic accuracy for complex scripts.</td>
-                        </tr>
-                        <tr class="border-b border-slate-800/50">
-                            <td class="p-4">Large Data Analysis</td>
-                            <td class="p-4 font-bold text-white">Gemini 1.5 Pro</td>
-                            <td class="p-4 text-sm">Massive context window (up to 2M tokens).</td>
-                        </tr>
-                        <tr class="border-b border-slate-800/50">
-                            <td class="p-4">Local / Open Source</td>
-                            <td class="p-4 font-bold text-white">Llama 3.1 (70B)</td>
-                            <td class="p-4 text-sm">High performance for local, private hosting.</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4">Math/Logic Heavy</td>
-                            <td class="p-4 font-bold text-white">DeepSeek V3</td>
-                            <td class="p-4 text-sm">Optimized reasoning paths for complex logic.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="border-t border-slate-800 py-12 text-center">
-        <p class="text-sm text-slate-500">Generated Analysis &bull; 2024/2025 AI Roadmap</p>
-    </footer>
-
+        <div class="principles">
+          <div class="principle">
+            <strong>Open weights</strong>
+            <p>You can download parameters. That alone says nothing about the training documents, mixture, preprocessing, or reproducibility.</p>
+          </div>
+          <div class="principle">
+            <strong>Categories disclosed</strong>
+            <p>The developer names broad sources such as web, code, licensed, or synthetic data, but does not provide the document-level corpus.</p>
+          </div>
+          <div class="principle">
+            <strong>Full corpus</strong>
+            <p>Data or reconstruction artifacts, mixtures, processing code, and training details are available for meaningful audit and replication.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="advisor" aria-labelledby="advisor-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Evidence-aware advisor</p>
+          <h2 id="advisor-title">Route by the requirement that matters most.</h2>
+          <p>A single leaderboard winner is not automatically the right model. The advisor combines current independent capability evidence with access and corpus transparency.</p>
+        </div>
+        <div class="advisor-shell">
+          <div class="advisor-control">
+            <label for="advisor-priority">Primary requirement</label>
+            <select id="advisor-priority">
+              <option value="knowledge-work">Best overall knowledge work</option>
+              <option value="coding">Agentic coding</option>
+              <option value="provenance">Inspectable training provenance</option>
+              <option value="open-frontier">Highest-capability open weights</option>
+              <option value="open-engineering">MIT open-weight engineering</option>
+              <option value="multilingual">Transparent multilingual work</option>
+              <option value="multimodal">Long-context multimodal analysis</option>
+              <option value="budget">Lowest-cost capable open weights</option>
+            </select>
+            <p class="advisor-note">For current or regulated facts, give any selected model authoritative documents and require citations. Pretraining does not replace retrieval.</p>
+          </div>
+          <div id="advisor-result" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+    <section id="models" aria-labelledby="models-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">10 current reference models</p>
+          <h2 id="models-title">What their developers actually reveal.</h2>
+          <p>Corpus descriptions below are bounded by cited evidence. Where the full corpus is unavailable, a research link points to a relevant audit or attribution method—not a claim that the paper recovered the model’s complete data.</p>
+        </div>
+        <div class="legend" aria-label="Transparency legend">
+          <span class="badge badge-full">Full corpus</span>
+          <span class="badge badge-partial">Categories only</span>
+          <span class="badge badge-minimal">Minimal disclosure</span>
+        </div>
+        <div id="model-list"></div>
+      </div>
+    </section>
+    <section id="method" aria-labelledby="method-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Method and caveats</p>
+          <h2 id="method-title">Evidence before inference.</h2>
+        </div>
+        <div class="method-grid">
+          <article class="method-card">
+            <h3>How models were selected</h3>
+            <p>Frontier proprietary and open-weight models were chosen using the current Artificial Analysis Intelligence Index and model-release evidence. OLMo 3 and Apertus are included because performance-only rankings underrepresent their unusually strong corpus transparency.</p>
+            <ul>
+              <li><a href="https://artificialanalysis.ai/evaluations/artificial-analysis-intelligence-index" target="_blank" rel="noreferrer">Artificial Analysis Intelligence Index methodology ↗</a></li>
+              <li><a href="https://artificialanalysis.ai/downloads/AA-Openness-Index-Spec_V1-0.pdf" target="_blank" rel="noreferrer">Artificial Analysis Openness Index specification ↗</a></li>
+              <li><a href="https://hai.stanford.edu/ai-index/2026-ai-index-report" target="_blank" rel="noreferrer">Stanford AI Index 2026 ↗</a></li>
+            </ul>
+          </article>
+          <article class="method-card">
+            <h3>When source files are undisclosed</h3>
+            <p>Black-box membership and “data archaeology” studies can produce evidence that a model likely encountered a book, dataset, or document. They are probabilistic, model-version-specific, and vulnerable to confounding. They do not recover a full pretraining corpus.</p>
+            <ul>
+              <li><a href="https://arxiv.org/abs/2305.00118" target="_blank" rel="noreferrer">Speak, Memory: books known to ChatGPT/GPT-4 ↗</a></li>
+              <li><a href="https://www.nber.org/papers/w33598" target="_blank" rel="noreferrer">Cloze Encounters: Books3 membership evidence ↗</a></li>
+              <li><a href="https://aclanthology.org/2025.naacl-long.99/" target="_blank" rel="noreferrer">Information-guided data-imprint identification ↗</a></li>
+              <li><a href="https://www.nature.com/articles/s41467-026-68862-x" target="_blank" rel="noreferrer">Information-isotope audit across closed models ↗</a></li>
+              <li><a href="https://www.dataprovenance.org/" target="_blank" rel="noreferrer">Data Provenance Explorer ↗</a></li>
+            </ul>
+          </article>
+        </div>
+        <div class="callout"><strong>Confidence boundary:</strong> Vendor statements support the listed source categories. Only OLMo 3 and Apertus are marked “Full corpus.” Research papers linked for other models provide investigative methods or evidence about particular material; they are not substituted for missing corpus manifests.</div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap footer-inner">
+      <span>AI Model Evidence Guide · researched August 2026</span>
+      <span>Capability scores are snapshots, not permanent rankings.</span>
+    </div>
+  </footer>
+  <script type="module" src="./app.mjs"></script>
 </body>
 </html>
