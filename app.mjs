@@ -182,6 +182,32 @@ const routes = {
   budget: 'deepseek-v4'
 };
 
+export const advisorChoices = [
+  { priority: 'knowledge-work', icon: 'KW', label: 'Knowledge work', detail: 'Best overall' },
+  { priority: 'coding', icon: 'CD', label: 'Agentic coding', detail: 'Build and debug' },
+  { priority: 'provenance', icon: 'PR', label: 'Training provenance', detail: 'Inspectable corpus' },
+  { priority: 'open-frontier', icon: 'OF', label: 'Open frontier', detail: 'Top open weights' },
+  { priority: 'open-engineering', icon: 'EN', label: 'Open engineering', detail: 'MIT-licensed weights' },
+  { priority: 'multilingual', icon: 'ML', label: 'Multilingual', detail: 'Transparent data' },
+  { priority: 'multimodal', icon: 'MM', label: 'Multimodal', detail: 'Long context' },
+  { priority: 'budget', icon: '$', label: 'Budget', detail: 'Capable and efficient' }
+];
+
+export function renderAdvisorChoices(activePriority = 'knowledge-work') {
+  return advisorChoices.map((choice) => `
+    <button class="advisor-choice${choice.priority === activePriority ? ' is-active' : ''}"
+      type="button"
+      data-priority="${choice.priority}"
+      aria-pressed="${choice.priority === activePriority}">
+      <span class="advisor-choice__icon" aria-hidden="true">${choice.icon}</span>
+      <span>
+        <strong>${choice.label}</strong>
+        <small>${choice.detail}</small>
+      </span>
+    </button>
+  `).join('');
+}
+
 export function recommendModel(priority) {
   const selectedId = routes[priority] ?? routes['knowledge-work'];
   return models.find((model) => model.id === selectedId);
@@ -248,9 +274,22 @@ function renderRecommendation(priority) {
 
 if (typeof document !== 'undefined') {
   renderModels();
-  const advisor = document.querySelector('#advisor-priority');
+  const advisor = document.querySelector('#advisor-priorities');
   if (advisor) {
-    renderRecommendation(advisor.value);
-    advisor.addEventListener('change', (event) => renderRecommendation(event.target.value));
+    const selectPriority = (priority) => {
+      renderRecommendation(priority);
+      for (const button of advisor.querySelectorAll('.advisor-choice')) {
+        const isActive = button.dataset.priority === priority;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+      }
+    };
+
+    advisor.innerHTML = renderAdvisorChoices();
+    advisor.addEventListener('click', (event) => {
+      const button = event.target.closest('.advisor-choice');
+      if (button) selectPriority(button.dataset.priority);
+    });
+    selectPriority('knowledge-work');
   }
 }

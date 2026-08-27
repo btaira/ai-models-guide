@@ -37,7 +37,7 @@
     }
     a { color: var(--mint); text-underline-offset: 3px; }
     a:hover { color: #a7f5d6; }
-    button, select { font: inherit; }
+    button { font: inherit; }
     .wrap { width: min(calc(100% - 2rem), var(--max)); margin-inline: auto; }
     nav {
       position: sticky;
@@ -101,17 +101,46 @@
       background: rgba(13, 26, 23, .82);
       box-shadow: 0 28px 80px rgba(0, 0, 0, .24);
     }
-    .advisor-control { padding: 1.25rem; }
-    label { display: block; margin-bottom: .65rem; font-weight: 600; }
-    select {
-      width: 100%;
-      padding: .9rem 2.5rem .9rem 1rem;
+    .advisor-control { padding: .75rem; }
+    .advisor-control h3 { margin: 0 0 .35rem; font-size: 1.15rem; letter-spacing: -.02em; }
+    .advisor-control > p { margin: 0 0 1rem; color: var(--muted); font-size: .88rem; }
+    .advisor-priorities { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+    .advisor-choice {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      min-width: 0;
+      padding: .75rem;
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: var(--panel-2);
+      background: rgba(18, 35, 31, .72);
       color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
     }
-    .advisor-note { margin: 1rem 0 0; color: var(--muted); font-size: .86rem; }
+    .advisor-choice:hover { transform: translateY(-2px); border-color: rgba(101, 230, 180, .55); }
+    .advisor-choice:focus-visible { outline: 3px solid rgba(142, 201, 255, .65); outline-offset: 2px; }
+    .advisor-choice.is-active {
+      border-color: var(--mint);
+      background: linear-gradient(135deg, rgba(101, 230, 180, .18), rgba(142, 201, 255, .08));
+      box-shadow: inset 0 0 0 1px rgba(101, 230, 180, .18);
+    }
+    .advisor-choice__icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 2.25rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 9px;
+      background: rgba(101, 230, 180, .12);
+      color: var(--mint);
+      font: 600 .7rem/1 "IBM Plex Mono", monospace;
+    }
+    .advisor-choice strong, .advisor-choice small { display: block; }
+    .advisor-choice strong { overflow: hidden; font-size: .86rem; text-overflow: ellipsis; white-space: nowrap; }
+    .advisor-choice small { margin-top: .1rem; color: var(--muted); font-size: .7rem; }
+    .advisor-note { margin: 1rem .25rem 0; color: var(--muted); font-size: .8rem; }
     #advisor-result {
       min-height: 220px;
       display: flex;
@@ -203,6 +232,7 @@
       .model-card__top { flex-direction: column; }
       .model-card { min-height: 0; }
       .footer-inner { flex-direction: column; }
+      .advisor-priorities { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -262,17 +292,9 @@
         </div>
         <div class="advisor-shell">
           <div class="advisor-control">
-            <label for="advisor-priority">Primary requirement</label>
-            <select id="advisor-priority">
-              <option value="knowledge-work">Best overall knowledge work</option>
-              <option value="coding">Agentic coding</option>
-              <option value="provenance">Inspectable training provenance</option>
-              <option value="open-frontier">Highest-capability open weights</option>
-              <option value="open-engineering">MIT open-weight engineering</option>
-              <option value="multilingual">Transparent multilingual work</option>
-              <option value="multimodal">Long-context multimodal analysis</option>
-              <option value="budget">Lowest-cost capable open weights</option>
-            </select>
+            <h3>Choose your priority</h3>
+            <p>Every option is visible—pick one to update the recommendation.</p>
+            <div id="advisor-priorities" class="advisor-priorities" role="group" aria-label="Primary requirement"></div>
             <p class="advisor-note">For current or regulated facts, give any selected model authoritative documents and require citations. Pretraining does not replace retrieval.</p>
           </div>
           <div id="advisor-result" aria-live="polite"></div>

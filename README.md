@@ -15,3 +15,11 @@ Run the advisor and evidence-contract tests:
 ```powershell
 node --test tests/site.test.mjs
 ```
+
+Audit every clickable source link and page anchor:
+
+```powershell
+node scripts/check-links.mjs
+```
+
+Some publishers block automated TLS or bot clients even when the page opens normally in a browser. Review any reported transport failure in a browser before replacing an evidence link.
