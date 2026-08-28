@@ -171,6 +171,119 @@ export const models = [
   }
 ];
 
+export const foundationalModels = [
+  {
+    id: 'bert',
+    name: 'BERT',
+    developer: 'Google AI Language · 2018',
+    year: '2018',
+    scale: '340M parameters (BERT-Large), pretrained on BooksCorpus and English Wikipedia (~3.3B words) with masked-language and next-sentence objectives.',
+    primaryUse: 'Bidirectional encoder representations fine-tuned for classification, named-entity recognition, and question answering.',
+    now: 'Encoder-only pretraining it popularized still underlies most embedding and retrieval models used for search and RAG.',
+    primaryUrl: 'https://arxiv.org/abs/1810.04805',
+    primaryLabel: 'BERT paper'
+  },
+  {
+    id: 'gpt-2',
+    name: 'GPT-2',
+    developer: 'OpenAI · 2019',
+    year: '2019',
+    scale: '1.5B parameters at full release, trained on WebText: ~8M documents (40GB) scraped from outbound Reddit links.',
+    primaryUse: 'Autoregressive next-token prediction for open-ended text generation, demonstrated as a zero-shot multitask learner.',
+    now: 'Established the decoder-only, scale-first recipe that GPT-3, ChatGPT, and later frontier chat models continued.',
+    primaryUrl: 'https://openai.com/index/better-language-models/',
+    primaryLabel: 'GPT-2 release post'
+  },
+  {
+    id: 'xlnet',
+    name: 'XLNet',
+    developer: 'Carnegie Mellon University & Google Brain · 2019',
+    year: '2019',
+    scale: '~340M parameters (XLNet-Large), trained on BooksCorpus, Wikipedia, Giga5, ClueWeb, and Common Crawl (~33B words).',
+    primaryUse: 'Permutation-based autoregressive pretraining that captures bidirectional context without BERT’s masking.',
+    now: 'A research line largely absorbed into later encoder work; day-to-day use shifted to RoBERTa and T5-style models.',
+    primaryUrl: 'https://arxiv.org/abs/1906.08237',
+    primaryLabel: 'XLNet paper'
+  },
+  {
+    id: 'roberta',
+    name: 'RoBERTa',
+    developer: 'Meta AI (Facebook AI Research) · 2019',
+    year: '2019',
+    scale: '355M parameters (RoBERTa-Large), trained on 160GB of text: BookCorpus+Wikipedia, CC-News, OpenWebText, and Stories.',
+    primaryUse: 'A more heavily and longer-trained BERT recipe, tuned for text classification and named-entity recognition.',
+    now: 'Remains a common lightweight baseline encoder for classification tasks where a full LLM is unnecessary.',
+    primaryUrl: 'https://arxiv.org/abs/1907.11692',
+    primaryLabel: 'RoBERTa paper'
+  },
+  {
+    id: 't5',
+    name: 'T5',
+    developer: 'Google Research · 2019',
+    year: '2019',
+    scale: 'Up to 11B parameters, trained on C4 (Colossal Clean Crawled Corpus), ~750GB of filtered Common Crawl text.',
+    primaryUse: 'Casts every NLP task — translation, summarization, classification — as text-to-text generation.',
+    now: 'The text-to-text framing carried forward into instruction-tuned and multitask training used by current models.',
+    primaryUrl: 'https://arxiv.org/abs/1910.10683',
+    primaryLabel: 'T5 paper'
+  },
+  {
+    id: 'gshard',
+    name: 'GShard',
+    developer: 'Google · 2020',
+    year: '2020',
+    scale: '600B-parameter sparsely-gated mixture-of-experts model for multilingual machine translation across 100+ languages.',
+    primaryUse: 'A sharding and conditional-computation system for training multi-hundred-billion-parameter models efficiently.',
+    now: 'Its MoE and sharding techniques are the direct ancestor of the mixture-of-experts designs in today’s largest open and closed models.',
+    primaryUrl: 'https://arxiv.org/abs/2006.16668',
+    primaryLabel: 'GShard paper'
+  },
+  {
+    id: 'lamda',
+    name: 'LaMDA',
+    developer: 'Google · 2022',
+    year: '2022',
+    scale: '137B parameters, pretrained on 1.56T words (~570GB) of public dialogue data and web text.',
+    primaryUse: 'A dialogue-specialized model tuned for open-domain conversational applications.',
+    now: 'Never released standalone; its dialogue training informed Google’s subsequent Bard/Gemini assistant work.',
+    primaryUrl: 'https://arxiv.org/abs/2201.08239',
+    primaryLabel: 'LaMDA paper'
+  },
+  {
+    id: 'palm',
+    name: 'PaLM',
+    developer: 'Google Research · 2022',
+    year: '2022',
+    scale: '540B parameters, trained on 780B tokens of multilingual web pages, books, Wikipedia, conversation, and code.',
+    primaryUse: 'Demonstrated large-scale few-shot reasoning, code generation, and multilingual understanding via the Pathways system.',
+    now: 'Superseded by Google’s Gemini family, which absorbed and extended its scaling and reasoning results.',
+    primaryUrl: 'https://arxiv.org/abs/2204.02311',
+    primaryLabel: 'PaLM paper'
+  },
+  {
+    id: 'sparrow',
+    name: 'Sparrow',
+    developer: 'DeepMind · 2022',
+    year: '2022',
+    scale: 'Built on a 70B-parameter Chinchilla-family model, fine-tuned with RLHF plus rules and live Google Search evidence citation.',
+    primaryUse: 'A research prototype dialogue agent studying helpfulness, correctness, and harm-reduction rules together.',
+    now: 'Never publicly released; its rule-conditioned RLHF and evidence-citation approach fed into later Google/DeepMind assistant safety work.',
+    primaryUrl: 'https://arxiv.org/abs/2209.14375',
+    primaryLabel: 'Sparrow paper'
+  },
+  {
+    id: 'chatgpt-launch',
+    name: 'ChatGPT (initial release)',
+    developer: 'OpenAI · 2022',
+    year: '2022',
+    scale: 'Built on a GPT-3.5-series model (~175B parameters), fine-tuned with instruction data and RLHF.',
+    primaryUse: 'General-purpose conversational assistant covering language modeling, generation, sentiment analysis, and translation.',
+    now: 'Superseded within OpenAI’s own lineup by GPT-4 and later models; see the current reference models above for today’s frontier.',
+    primaryUrl: 'https://openai.com/index/chatgpt/',
+    primaryLabel: 'ChatGPT launch post'
+  }
+];
+
 const routes = {
   'knowledge-work': 'claude-opus-5',
   coding: 'claude-opus-5',
@@ -253,6 +366,29 @@ function renderModels() {
   `).join('');
 }
 
+function renderFoundational() {
+  const container = document.querySelector('#foundational-list');
+  if (!container) return;
+
+  container.innerHTML = foundationalModels.map((model) => `
+    <article class="legacy-card" data-model="${model.id}">
+      <div class="legacy-card__top">
+        <div>
+          <p class="eyebrow">${model.developer}</p>
+          <h3>${model.name}</h3>
+        </div>
+        <span class="legacy-year">${model.year}</span>
+      </div>
+      <p class="scale">${model.scale}</p>
+      <p class="use"><strong>Built for:</strong> ${model.primaryUse}</p>
+      <p class="now"><strong>Since then:</strong> ${model.now}</p>
+      <div class="source-links">
+        ${link(model.primaryUrl, model.primaryLabel)}
+      </div>
+    </article>
+  `).join('');
+}
+
 function renderRecommendation(priority) {
   const result = recommendModel(priority);
   const container = document.querySelector('#advisor-result');
@@ -274,6 +410,7 @@ function renderRecommendation(priority) {
 
 if (typeof document !== 'undefined') {
   renderModels();
+  renderFoundational();
   const advisor = document.querySelector('#advisor-priorities');
   if (advisor) {
     const selectPriority = (priority) => {

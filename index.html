@@ -203,6 +203,37 @@
       border-top: 1px solid var(--line);
       font-size: .82rem;
     }
+    .legacy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .legacy-card {
+      padding: 1.4rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(13, 26, 23, .82);
+    }
+    .legacy-card__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .legacy-card h3 { margin: 0; font-size: 1.4rem; }
+    .legacy-year {
+      display: inline-flex;
+      align-items: center;
+      width: max-content;
+      padding: .3rem .6rem;
+      border: 1px solid rgba(246, 201, 107, .42);
+      border-radius: 999px;
+      background: rgba(246, 201, 107, .08);
+      color: var(--gold);
+      font: 500 .72rem/1.2 "IBM Plex Mono", monospace;
+      white-space: nowrap;
+    }
+    .legacy-card .scale { margin: 1rem 0 .75rem; font-size: .95rem; }
+    .legacy-card .use, .legacy-card .now { margin: .5rem 0 0; color: var(--muted); font-size: .88rem; }
+    .legacy-card .use strong, .legacy-card .now strong { color: var(--text); }
+    .legacy-card .source-links {
+      display: flex;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      font-size: .82rem;
+    }
     .method-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     .method-card h3 { margin: 0 0 .8rem; font-size: 1.35rem; }
     .method-card p, .method-card li { color: var(--muted); font-size: .93rem; }
@@ -223,7 +254,7 @@
       .principles { grid-template-columns: 1fr; }
       #advisor-result { flex-direction: column; }
       .advisor-result__meta { align-items: flex-start; }
-      #model-list, .method-grid { grid-template-columns: 1fr; }
+      #model-list, .legacy-grid, .method-grid { grid-template-columns: 1fr; }
       .nav-links { display: none; }
     }
     @media (max-width: 540px) {
@@ -243,6 +274,7 @@
       <div class="nav-links">
         <a href="#advisor">Advisor</a>
         <a href="#models">Corpus evidence</a>
+        <a href="#foundational">History</a>
         <a href="#method">Method</a>
       </div>
     </div>
@@ -314,6 +346,16 @@
           <span class="badge badge-minimal">Minimal disclosure</span>
         </div>
         <div id="model-list"></div>
+      </div>
+    </section>
+    <section id="foundational" aria-labelledby="foundational-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Where the current models came from</p>
+          <h2 id="foundational-title">The foundational language models (2018–2022).</h2>
+          <p>Every model above descends from the transformer architecture introduced in 2017. These ten releases set the encoder, decoder, dialogue, and scaling patterns current frontier models still build on. Overview informed by <a href="https://insinyur.medium.com/advanced-ai-language-models-a-comparison-of-chatgpt-google-sparrow-lamda-palm-gshard-bert-e41acbdfb996" target="_blank" rel="noreferrer">Andi Wahyudi’s 2023 model comparison ↗</a>; scale and source details below are cited to each model’s own paper or release post.</p>
+        </div>
+        <div id="foundational-list" class="legacy-grid"></div>
       </div>
     </section>
     <section id="method" aria-labelledby="method-title">

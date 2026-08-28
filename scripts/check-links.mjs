@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
-import { models } from '../app.mjs';
+import { models, foundationalModels } from '../app.mjs';
 
 const modelUrlFields = ['primaryUrl', 'corpusUrl', 'researchUrl', 'aaUrl'];
 
@@ -61,7 +61,7 @@ export async function checkUrl(url) {
 
 async function run() {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-  const links = collectLinks(html, models);
+  const links = collectLinks(html, [...models, ...foundationalModels]);
   const missingAnchors = findMissingAnchors(html);
   const externalLinks = links.filter((link) => /^https?:\/\//i.test(link));
   const results = await Promise.all(externalLinks.map(checkUrl));
