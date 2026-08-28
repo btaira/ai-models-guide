@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 import * as guide from '../app.mjs';
 
-const { models, recommendModel } = guide;
+const { models, foundationalModels, recommendModel } = guide;
 
 test('link audit includes generated model links and detects missing page anchors', async () => {
   let audit;
@@ -95,5 +95,18 @@ test('every model distinguishes evidence from inference and cites a primary sour
     assert.ok(['Full corpus', 'Categories only', 'Minimal disclosure'].includes(model.transparency));
     assert.match(model.primaryUrl, /^https:\/\//, model.name + ' is missing a primary source');
     assert.ok(model.evidenceNote.length > 20, model.name + ' needs an evidence note');
+  }
+});
+
+test('every current model maps to at least one foundational model it descends from', () => {
+  assert.ok(foundationalModels.length >= 10);
+  const foundationalIds = new Set(foundationalModels.map((model) => model.id));
+
+  for (const model of models) {
+    assert.ok(Array.isArray(model.lineage) && model.lineage.length > 0, model.name + ' needs a foundational lineage');
+    for (const ancestorId of model.lineage) {
+      assert.ok(foundationalIds.has(ancestorId), model.name + ' lineage references unknown id ' + ancestorId);
+    }
+    assert.ok(model.lineageNote.length > 20, model.name + ' needs a lineage note');
   }
 });
