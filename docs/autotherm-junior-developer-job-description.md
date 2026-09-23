@@ -2,6 +2,9 @@
 
 > **Living document.** This is updated as more of the AutoTherm codebase is reviewed.
 > See [Revision history](#revision-history) and [Codebase coverage](#codebase-coverage) at the bottom.
+> A candidate-facing version for posting is in
+> [`autotherm-junior-developer-job-posting.md`](autotherm-junior-developer-job-posting.md).
+> Keep the two in sync when qualifications change.
 
 **Current version:** 3 (updated after reviewing `libs/test_scripts.py`, `libs/results.py`,
 `libs/vxi11/vxi11.py`, and the `input.docx` / `thermal.docx` report templates)
@@ -310,3 +313,4 @@ folder (see its `__main__` block).
 | 1 | 2026-09-23 | First assessment from `AutoTherm.py`, `project_vars.py`, `AutoTherm.spec`, `README.md` (shared in chat) |
 | 2 | 2026-09-23 | Rewritten as a formal job description after reviewing five `libs/` modules. Added the specific instrument models and protocols. Raised OOXML/XPath to a core skill. Added serialization security, control-loop concepts, and a 13-item starter bug list. Confirmed the lambda late-binding hazard as live bugs. |
 | 3 | 2026-09-23 | Reviewed `test_scripts.py`, `results.py`, `vxi11.py`, and two report templates. Confirmed the domain as IEC 62368-1 / 60950-1 report tables. Added test-procedure responsibilities, matplotlib-in-Tkinter, time-series and stability logic, truthiness, vendored-library handling, and ambient correction. Added bugs #14–19 and three new senior-review items (inconsistent ambient values, the manual-complete override, re-entrancy). Added the template row map. Updated the skill weighting. |
+| 4 | 2026-09-23 | Added a candidate-facing job posting (`autotherm-junior-developer-job-posting.md`) built from the required and preferred qualifications. |
