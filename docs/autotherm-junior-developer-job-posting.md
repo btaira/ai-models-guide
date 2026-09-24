@@ -36,6 +36,8 @@ fundamentals and like understanding how things work, we'll teach you the rest.
   lab equipment
 - Package and release the application for Windows and macOS
 - Help lab users troubleshoot connection and setup problems
+- Help move project and test-result storage from files into a SQL database (starting with
+  SQLite), so results are searchable, traceable, and safe to share
 - Improve documentation as you learn the system
 
 ## Required qualifications
@@ -49,6 +51,9 @@ fundamentals and like understanding how things work, we'll teach you the rest.
 - **Comfort reading and debugging code you didn't write.** That means tracing data across
   several files, reproducing a bug before fixing it, and using logging or a debugger.
 - **Working knowledge of Git:** branching, committing, merging, and writing clear commit messages
+- **SQL fundamentals:** writing `SELECT` queries with `WHERE`, `JOIN`, `GROUP BY`, and
+  aggregates; inserting and updating data; designing simple tables with primary and foreign
+  keys; and using parameterized queries from Python (for example the built-in `sqlite3` module)
 - **Basic networking knowledge:** IP addresses and ports, TCP connections, timeouts, and
   common connection errors
 - **Clear communication:** you ask questions early and can explain a technical problem to

@@ -6,8 +6,7 @@
 > [`autotherm-junior-developer-job-posting.md`](autotherm-junior-developer-job-posting.md).
 > Keep the two in sync when qualifications change.
 
-**Current version:** 3 (updated after reviewing `libs/test_scripts.py`, `libs/results.py`,
-`libs/vxi11/vxi11.py`, and the `input.docx` / `thermal.docx` report templates)
+**Current version:** 5 (added SQL as a required qualification, with a roadmap explaining why)
 
 ---
 
@@ -67,6 +66,7 @@ the job.
 - Maintain the **project save/load format** (`.aut` and `.acs` files)
 - Build and release the app with **PyInstaller** for Windows and macOS
 - Help lab users with connection problems (IP addresses, GPIB addresses, timeouts)
+- Help move projects and test results from pickle files into a **SQLite database** (see [SQL roadmap](#sql-roadmap))
 - Write down what you learn. Most of the current knowledge lives only in the code.
 
 ---
@@ -81,6 +81,7 @@ the job.
 | **Reading unfamiliar code** | Trace data through several modules that share global state | Two to three past authors, few comments, no tests |
 | **Debugging** | Use print/log tracing and a debugger; reproduce a bug before fixing it | Many failures are silent (`except: pass`) |
 | **Git** | Branch, commit, merge, and write readable commit messages | The source is hosted on GitLab |
+| **SQL** | `SELECT` with `WHERE`/`JOIN`/`GROUP BY`/aggregates, `INSERT`/`UPDATE`, simple schema design (primary and foreign keys), transactions, and **parameterized queries** from Python (`sqlite3`) | AutoTherm doesn't use SQL today. It's required for the planned move of projects and results out of pickle files and into SQLite (see [SQL roadmap](#sql-roadmap)). |
 | **Basic networking** | IP address vs port, TCP connection, timeouts, what "connection refused" means | Every instrument sits on the lab network |
 | **Communication** | Ask clarifying questions and explain technical issues to non-developers | Your users are test engineers |
 
@@ -209,13 +210,38 @@ with a senior engineer.
 
 ---
 
+## SQL roadmap
+
+SQL is a **required** skill even though the current code has no database. It's there
+because of where the tool needs to go. A database would fix several problems found in
+review:
+
+| Problem today | How SQL helps |
+|---|---|
+| Projects are saved with `pickle` plus `eval`, so opening an untrusted file can run code | SQLite stores plain data. Reading it never runs code. |
+| Results live in one file per project, so you can't compare PSUs or search across projects | One database, queryable with SQL. For example: the highest temperature per component across all 2026 tests. |
+| "Mark as complete" leaves no record of who did it or why | An audit table records who changed what, and when |
+| The ambient value is stored in several places and can disagree | One `projects` row holds the manufacturer ambient, and everything reads it from there |
+| Every 5-second thermal sample is kept only in memory until the next save | Write each sample to a `readings` table as it's taken, so a crash doesn't lose the test |
+
+A possible starting schema: `projects`, `psus`, `configurations`, `tests`
+(input/thermal/abnormal), `channels`, `readings` (time, channel, temperature, power), and
+`audit_log`. Python's built-in `sqlite3` module means there's no server to install, and it
+works inside a PyInstaller build.
+
+**Junior-sized first steps:** write read-only SQL reports against an exported database,
+build a one-way export from existing `.aut` files into SQLite, and add the audit table.
+Leave the cut-over from pickle to SQLite (the migration plan) to a senior engineer.
+
+---
+
 ## Tech stack
 
 **Language:** Python 3.10+
 **GUI:** Tkinter / ttk; matplotlib (`FigureCanvasTkAgg`, `FuncAnimation`) for live temperature charts
 **Instrument I/O:** `socket` (raw TCP), Prologix GPIB-Ethernet, vendored `python-vxi11` (MIT; VXI-11 over ONC/Sun RPC), SCPI, Yokogawa ASCII protocol, `requests` (HTTP/JSON)
 **Documents:** lxml, XPath, `xml.dom.minidom`, `zipfile` (hand-built `.docx` from OOXML templates); `csv`; SVG chart export
-**Persistence:** `pickle` plus a custom Tk-variable serializer (`.aut` projects, `.acs` connection settings)
+**Persistence:** `pickle` plus a custom Tk-variable serializer (`.aut` projects, `.acs` connection settings). Planned: SQLite (see [SQL roadmap](#sql-roadmap))
 **Build:** PyInstaller (Windows onedir, macOS onefile)
 **Source control:** Git / GitLab
 **Hardware:** Kikusui AC/DC power sources, Yokogawa WT310E power meters (×1–4), Yokogawa chart recorder (Type T thermocouples, up to 100 channels), networked temperature/humidity sensor
@@ -314,3 +340,4 @@ folder (see its `__main__` block).
 | 2 | 2026-09-23 | Rewritten as a formal job description after reviewing five `libs/` modules. Added the specific instrument models and protocols. Raised OOXML/XPath to a core skill. Added serialization security, control-loop concepts, and a 13-item starter bug list. Confirmed the lambda late-binding hazard as live bugs. |
 | 3 | 2026-09-23 | Reviewed `test_scripts.py`, `results.py`, `vxi11.py`, and two report templates. Confirmed the domain as IEC 62368-1 / 60950-1 report tables. Added test-procedure responsibilities, matplotlib-in-Tkinter, time-series and stability logic, truthiness, vendored-library handling, and ambient correction. Added bugs #14–19 and three new senior-review items (inconsistent ambient values, the manual-complete override, re-entrancy). Added the template row map. Updated the skill weighting. |
 | 4 | 2026-09-23 | Added a candidate-facing job posting (`autotherm-junior-developer-job-posting.md`) built from the required and preferred qualifications. |
+| 5 | 2026-09-24 | Made **SQL** a required qualification in both the internal description and the job posting. Added a responsibility and a SQL roadmap section that explains why: replacing pickle files, an audit trail, cross-project queries, and one place for the ambient value. |
