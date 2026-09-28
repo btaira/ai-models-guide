@@ -1,20 +1,31 @@
-# Job Description: Junior Software Developer, AutoTherm (Test Automation)
+# Role Description: Safety Test and Automation Engineer (AutoTherm)
 
-> **Living document.** This is updated as more of the AutoTherm codebase is reviewed.
-> See [Revision history](#revision-history) and [Codebase coverage](#codebase-coverage) at the bottom.
-> A candidate-facing version for posting is in
-> [`autotherm-junior-developer-job-posting.md`](autotherm-junior-developer-job-posting.md).
+> **Living document.** This is the internal reference for hiring managers and interviewers.
+> It's updated as the role and the AutoTherm codebase evolve. See
+> [Revision history](#revision-history) and [Codebase coverage](#codebase-coverage) at the bottom.
+> The candidate-facing posting is
+> [`safety-test-automation-engineer-posting.md`](safety-test-automation-engineer-posting.md).
 > Keep the two in sync when qualifications change.
 
-**Current version:** 5 (added SQL as a required qualification, with a roadmap explaining why)
+**Current version:** 6 (re-scoped from a junior developer role to a mid-level hybrid role:
+a safety test engineer who also develops test-automation software)
 
 ---
 
 ## About the role
 
-AutoTherm is an internal Python desktop app used by a hardware compliance lab. It automates
-**product safety testing of power supply units (PSUs)** under **IEC 62368-1** (and the older
-IEC 60950-1). It:
+The Compliance Team works across all core hardware engineering product lines. This role
+is split roughly **half hands-on safety testing, half software**:
+
+- **In the lab:** perform product safety tests to **IEC 62368-1**. These include input,
+  heating (thermal), dielectric withstand (hi-pot), touch current, ground bond (protective
+  bonding), and abnormal/fault-condition tests. Setting up fault conditions often means
+  soldering on small surface-mount parts.
+- **In the code:** maintain and grow **AutoTherm**, our Python desktop app that automates
+  thermal, input, and abnormal testing. Then extend automation to the tests AutoTherm
+  doesn't cover yet (dielectric withstand, touch current, ground bond).
+
+AutoTherm today:
 
 1. Drives a programmable AC/DC power source to set voltages and frequencies
 2. Reads up to four digital power meters and a chart recorder with up to 100 thermocouple channels
@@ -27,19 +38,29 @@ IEC 60950-1). It:
    report. The templates cite 62368-1 clauses B.2.5 (input) and 5.4.1.4, 9.3, B.1.5, B.2.6,
    B.3, B.4 (temperatures and abnormal conditions).
 
-You'll maintain and extend it: fix bugs, support new lab instruments, improve reliability,
-and ship Windows and macOS builds. You'll work closely with test engineers who use the
-tool every day. **The numbers this software produces end up in certification paperwork,
+**Why a hybrid role:** the hardest problems found in the code review weren't Python
+problems. They were questions like "which ambient temperature is correct?" and "should a
+person be able to mark a test complete?". A developer who also performs the tests can
+answer them. **The numbers this software produces end up in certification paperwork,
 so correctness matters more than speed.**
 
-This is a good role for a junior developer who wants to learn **software that touches
-real hardware**. Expect a lot of mentoring. About half the work is ordinary Python, and
-the other half is instruments, test logic, and document generation, which you'll learn on
-the job.
+**Level:** mid-level, 3+ years of related experience. The hire is expected to work
+independently on most code changes, and to get sign-off from the lab's test engineering
+lead on anything that changes pass/fail criteria or reported results.
 
 ---
 
-## What you'll do
+## Responsibilities
+
+### Safety testing
+
+- Perform IEC 62368-1 tests: input, heating (thermal), dielectric withstand, touch current,
+  ground bond, and abnormal/fault-condition tests
+- Prepare samples: attach thermocouples, and solder fault conditions (shorts and opens) on
+  surface-mount and through-hole parts, using a microscope when needed
+- Follow high-voltage lab safety practices. Dielectric withstand testing uses thousands of volts.
+
+### AutoTherm development
 
 - Fix and improve the **Tkinter GUI**: main window, test configuration window (PSUs,
   up to 100 thermocouple channels, AC/DC test tables), connection settings window, and the
@@ -62,68 +83,87 @@ the job.
 - Maintain the **report generator**, which builds Word tables by editing Office Open XML
   (OOXML) directly with lxml and XPath, then zips the result into a `.docx`. Keep the
   `.docx` templates and the code that fills them in sync.
-- Maintain **exports**: CSV test logs and SVG charts from the results window
-- Maintain the **project save/load format** (`.aut` and `.acs` files)
+- Add **automated tests and hardware simulators** (fake power meters, chart recorders, and
+  power sources) so most of the code can be tested without lab equipment
+- Maintain **exports** (CSV test logs, SVG charts) and the **project save/load format**
+  (`.aut` and `.acs` files)
 - Build and release the app with **PyInstaller** for Windows and macOS
 - Help lab users with connection problems (IP addresses, GPIB addresses, timeouts)
-- Help move projects and test results from pickle files into a **SQLite database** (see [SQL roadmap](#sql-roadmap))
-- Write down what you learn. Most of the current knowledge lives only in the code.
+
+### Expanding automation
+
+- Extend automation beyond thermal testing to **dielectric withstand, touch current, and
+  ground bond** tests. That means choosing how to control the lab's safety testers (most
+  offer SCPI over LAN, USB, or RS-232), adding them to AutoTherm, and adding matching report tables.
+- Move projects and test results from pickle files into a **SQL database** (see [SQL roadmap](#sql-roadmap))
+
+### Team tooling
+
+- Use AI coding agents to speed up development, with rigorous review of AI-generated code.
+  This matters more than usual because the software produces certification data.
+- Build AI skills or tools the team can reuse, for example a skill that knows how to add a
+  new instrument or regenerate a report template
+- Document what you learn. Most of the current knowledge lives only in the code.
 
 ---
 
-## Required qualifications
+## Minimum qualifications
 
-| Area | What we expect | Why it matters here |
+These match the posting. The third column is for interviewers.
+
+| Qualification | What we expect | Why it matters here |
 |---|---|---|
-| **Python 3** | Functions, classes, exceptions, modules, dicts and lists, list comprehensions, f-strings, recursion | The whole app is Python. App state is one deeply nested dict and list tree. |
-| **Python closures and scope** | Understand `global`, local vs module scope, and **late binding in lambdas** (`lambda i=i: ...`) | The GUI creates hundreds of buttons in loops. Getting this wrong is already a live bug in the codebase. |
-| **Python truthiness** | Know that a non-empty tuple like `(False, "error")` is *true* | This mistake currently lets thermal tests continue after the voltage failed to set |
-| **Reading unfamiliar code** | Trace data through several modules that share global state | Two to three past authors, few comments, no tests |
-| **Debugging** | Use print/log tracing and a debugger; reproduce a bug before fixing it | Many failures are silent (`except: pass`) |
-| **Git** | Branch, commit, merge, and write readable commit messages | The source is hosted on GitLab |
-| **SQL** | `SELECT` with `WHERE`/`JOIN`/`GROUP BY`/aggregates, `INSERT`/`UPDATE`, simple schema design (primary and foreign keys), transactions, and **parameterized queries** from Python (`sqlite3`) | AutoTherm doesn't use SQL today. It's required for the planned move of projects and results out of pickle files and into SQLite (see [SQL roadmap](#sql-roadmap)). |
-| **Basic networking** | IP address vs port, TCP connection, timeouts, what "connection refused" means | Every instrument sits on the lab network |
-| **Communication** | Ask clarifying questions and explain technical issues to non-developers | Your users are test engineers |
+| **Degree and experience** | BS in EE, CompE, or CS (or equivalent experience), 3+ years of related experience | Mid-level: works independently on most changes |
+| **Python** | Proficient in scripting and application development | The whole app is Python |
+| **Test equipment automation** | Has automated instruments, preferably with SCPI, VXI-11, GPIB, or PyVISA | The core of `connection.py`, and the basis for automating new testers |
+| **Hand soldering** | Small surface-mount and through-hole parts, under a microscope when needed | Setting up abnormal/fault conditions |
+| **Git and SQL** | Git: branch, commit, merge. SQL: `SELECT` with `WHERE`/`JOIN`/`GROUP BY`, `INSERT`/`UPDATE`, simple schema design, transactions, **parameterized queries** from Python | Source is on GitLab. SQL is for the planned SQLite move (see [SQL roadmap](#sql-roadmap)). |
+| **Basic networking** | IP address vs port, TCP connections, timeouts, common connection errors | Every instrument sits on the lab network |
+| **Communication** | Excellent written and verbal communication | Works between test engineers, developers, and certification reports |
 
-## Preferred qualifications (we'll help you learn these)
+## Preferred qualifications
 
-| Area | Details |
+| Qualification | Why it matters here |
 |---|---|
-| **Tkinter / ttk** | `grid`/`pack`, `Notebook`, `Canvas`-based scrolling, `Toplevel` and `grab_set` (modal) dialogs, `StringVar`/`IntVar`/`BooleanVar`, `trace_add`, `validatecommand` |
-| **Event-driven GUI concepts** | The main loop. Why AutoTherm's long tests run *on* the GUI thread and keep the window alive with busy-wait `root.update()` loops. Re-entrancy (the user can click other buttons mid-test). Alternatives: `after()`, worker threads, queues. |
-| **matplotlib in Tkinter** | `FigureCanvasTkAgg`, `FuncAnimation` (and why the animation object must be kept in a variable so it isn't garbage-collected), SVG export, and why PyInstaller needs `--hidden-import matplotlib.backends.backend_svg` |
-| **Time-series / sampling logic** | Sampling loops, rolling windows (`x[-10:]`), stability and plateau detection, timeouts |
-| **Socket programming** | `socket.socket`, `sendall`/`recv`, reading responses that arrive in pieces, retry and reconnect logic |
-| **Instrument control** | SCPI basics (`*IDN?`, set vs query commands), VXI-11, GPIB addressing, reading vendor programming manuals |
-| **XML and XPath** | lxml, namespaces, XPath with positional indexes (`w:tr[3]/w:tc[2]`), escaping text safely |
-| **Office Open XML** | A `.docx` is a zip of XML. Word tables use `w:tbl`, `w:tr`, `w:tc`, `w:tcW` (width in twentieths of a point), `w:gridCol`, `w:gridSpan` |
-| **HTTP/REST and CSV** | `requests.get(...).json()` with timeouts; the `csv` module |
-| **Serialization and security** | Why `pickle.load` and `eval` on user-supplied files are dangerous, and what to use instead (JSON plus a schema) |
-| **Third-party vendored code** | `libs/vxi11` is a copied-in MIT-licensed library (python-vxi11). Know not to edit it locally, keep its license notice, and when to replace it with the pip package or PyVISA-py. |
-| **Packaging** | PyInstaller (`.spec` files, `--hidden-import`, `--add-data`, onedir vs onefile), file paths inside frozen apps |
-| **Cross-platform development** | Windows vs macOS paths, permissions, window sizing |
-| **Automated testing** | `pytest`, and mocking hardware (fake instrument classes) so code can be tested without the lab. The stability functions (`isStable5min`, `isStable30min`) are pure functions and a good first thing to unit test. |
+| **IEC 62368-1 and product safety compliance testing** | The first responsibility is performing these tests |
+| **Lab instruments:** oscilloscopes, multimeters, programmable power supplies, and safety testers (hipot, ground bond, touch current) | Daily lab work, and the instruments to automate next |
+| **High-voltage lab safety practices** | Dielectric withstand testing |
+| **AI coding agents** (e.g., Codex, GitHub Copilot, Cursor), with rigorous review of generated code | Team tooling responsibility |
+| **Building AI skills or tools for a team** | Team tooling responsibility |
+| **GUI development**, ideally Tkinter/ttk | ~35% of the codebase |
+| **Data visualization** with matplotlib | Live results window, SVG export |
+| **Network programming:** sockets, partial responses, retry and reconnect | The chart recorder and Prologix code use raw sockets |
+| **Automated testing** with pytest, mocking or simulating hardware | Simulators responsibility |
+| **XML processing** (lxml, XPath) or generating Word/Office documents | Report generator, ~20% of the codebase |
 
-## Nice to have
+## Technical depth to probe in interviews
 
-- Electronics basics: AC vs DC, RMS, voltage, current, power, frequency, rated current
-- Some exposure to **IEC 62368-1** or **IEC 60950-1**, or to CB-scheme test report forms
-  (TRFs). Know terms like *input test*, *thermal test*, *abnormal operating and fault
-  condition test*, *manufacturer's declared ambient (Tma)*, *touch temperature*,
-  *steady state*, *thermocouple (Type T)*.
-- Understand **linear ambient correction**: `T_reported = T_measured + (T_ma − T_ambient)`.
-  AutoTherm uses this in stability checks, in limit checks, and in the report's "Interp." column.
-- Basic control-loop intuition: the voltage-setting routine is a simple feedback loop
-  that nudges the setpoint until the power meter reads within 0.1% of target
-- Experience in a lab or on a manufacturing test floor
-- Electrical lab safety training. **This software switches real high-voltage outputs.**
+These topics came out of the code review. Each one is behind at least one real bug, so they
+make good interview questions.
+
+| Topic | What a strong candidate knows | Where it shows up |
+|---|---|---|
+| **Closures and late binding** | Why `lambda: f(i)` inside a loop sees the last `i`, and the `lambda i=i:` fix | Bugs #1 and #2 |
+| **Truthiness and return contracts** | A non-empty tuple like `(False, "error")` is *true* | Bug #14: thermal tests continue after the voltage failed to set |
+| **Exceptions and cleanup** | `try/finally` to reset state such as a "test in progress" flag | Bug #16 |
+| **Event loops** | Why long tasks freeze a GUI. `root.update()` busy-waits vs `after()` vs worker threads. Re-entrancy. | All test procedures |
+| **Escaping** | XML escaping and SQL parameterization are the same idea | Bug #6, and the SQL roadmap |
+| **Serialization security** | Why `pickle.load` and `eval` on user files are dangerous | Project save/load |
+| **Ambient correction** | `T_reported = T_measured + (T_ma − T_ambient)`, and why the same Tma must be used everywhere | The three-ambient-values issue |
+| **Stability detection** | Rolling windows, plateau criteria, timeouts | `isStable5min`, `isStable30min` |
+| **Office Open XML** | A `.docx` is a zip of XML; `w:tbl`, `w:tr`, `w:tc`, `w:gridSpan` | Report generator |
+| **Vendored code** | Upgrade rather than patch; keep license notices | `libs/vxi11` (python-vxi11, MIT) |
 
 ---
 
-## What makes this role challenging (read before applying)
+## What makes this role challenging
 
-- **Hardware in the loop.** Much of the code can only be fully tested with lab equipment.
-  You'll learn to write simulators and mocks.
+- **Two jobs in one.** Lab schedules and software work compete for time. Agree on the
+  split with the manager up front.
+- **High voltage.** Dielectric withstand tests run at thousands of volts, and AutoTherm
+  switches real power outputs. Safety training comes before any automation of these tests.
+- **Hardware in the loop.** Much of the code can only be fully tested with lab equipment,
+  so simulators are a priority.
 - **Several protocols in one app.** Raw TCP, GPIB via Prologix, VXI-11/SCPI (itself built
   on Sun RPC), a proprietary ASCII protocol, and HTTP/JSON, each with its own error behavior.
 - **Long tests on the GUI thread.** A thermal test can run for up to 3 hours inside a
@@ -134,28 +174,27 @@ the job.
 - **Template-coupled document generation.** The report code finds table cells by position
   (for example `w:tr[14]/w:tc[1]`, or even `w:p[1]/w:r[4]/w:t[1]`). Editing a Word
   template can break the code without any warning. See the [template row map](#appendix-report-template-row-map).
-- **Safety- and compliance-relevant logic.** Voltage limits, output on/off, AC/DC
-  switching, pass/fail criteria, and the "Mark as complete" manual override all need
-  careful review with an engineer.
+- **Compliance-relevant logic.** Pass/fail criteria, voltage limits, and the "Mark as
+  complete" override need sign-off from the lab's test engineering lead.
 
 ---
 
-## Your first 90 days
+## First 90 days
 
 | When | Goal |
 |---|---|
-| **Weeks 1–2** | Set up the environment. Run AutoTherm from source with no hardware. Read `AutoTherm.py` and `project_vars.py`. Draw the `projectVars['tests']` data structure on paper. Unzip `input.docx` and look at `word/document.xml`. |
-| **Weeks 3–4** | Fix your first bugs from the starter list below. Learn Tkinter and closures properly (TkDocs.com). Write `pytest` tests for `isStable5min` / `isStable30min` using made-up temperature data. |
-| **Month 2** | Read `connection.py` and `test_scripts.py` next to the Kikusui and Yokogawa manuals. Shadow a full thermal test in the lab. Write a fake power meter and fake chart recorder so a whole test can run at your desk. |
-| **Month 3** | Take on the report generator (`table_logic.py`): change a `.docx` template, regenerate its XML with `xml_helper_functions.py`, and update the XPath indexes. Produce a release build with PyInstaller. |
+| **Weeks 1–2** | Complete lab safety training, including high voltage. Shadow each test type. Run AutoTherm from source without hardware, and map the `projectVars['tests']` data structure. |
+| **Weeks 3–4** | Perform tests under supervision. Fix the ⚠️ bugs that can affect results (#14, #15, #16, #5), each with a regression test. |
+| **Month 2** | Build simulators for the power source, power meter, and chart recorder, so a whole test runs at a desk. Take the [three-ambient-values issue](#items-that-need-lab-lead-sign-off) to the lab lead and implement the decision. |
+| **Month 3** | Write a proposal for automating dielectric withstand, touch current, and ground bond tests (instruments, interfaces, report tables). Draft the SQLite schema. Produce a release build with PyInstaller. |
 
-### Starter bug list (found during code review)
+## Known issues backlog (found during code review)
 
-These are real issues, found by reading the code (not yet reproduced on hardware). Each
-one teaches a specific skill. ⚠️ means it can affect test results or equipment, so pair
-with a senior engineer.
+These are real issues, found by reading the code (not yet reproduced on hardware).
+⚠️ means it can affect test results or equipment, so fix those first and have the fix
+reviewed by the lab's test engineering lead. The last column doubles as an interview topic.
 
-| # | File | Issue | Skill it teaches |
+| # | File | Issue | Skill involved |
 |---|---|---|---|
 | 1 | `libs/test_config.py` `drawTests`, `drawAbnormals` | The "X" (remove) buttons use `lambda: removeTest(..., i)` without binding `i`, so **every X button removes the last row** | Closures and late binding |
 | 2 | `libs/test_config.py` ~line 500 | The PSU-name trace binds `i` but not `psuConfig`, so renaming a PSU can put the **last** PSU's name on the tab | Closures |
@@ -177,7 +216,9 @@ with a senior engineer.
 | 18 | `libs/test_scripts.py` `runThermalTest` | If no matching input result is found (`PM` is `None`), it sets a status but doesn't return. `sum(PM)` then crashes (see #16 for the stuck flag). | Guard clauses |
 | 19 | `libs/results.py` | `ambient_max` (used for the CSV "interp" column) is only updated when the user edits the ambient field. After **loading a project**, CSV exports use the default 40 °C, not the project's value. | Global state synchronization |
 
-### Things to raise with a senior engineer (don't fix alone)
+## Items that need lab-lead sign-off
+
+These are decisions, not just code fixes. Bring a proposal to the lab's test engineering lead.
 
 - **Three different "manufacturer ambient" values.** During a test, `test_scripts.py`
   adjusts temperatures to `Tmax[0]`, which `test_config.py` hard-codes to **55 °C**. The Word
@@ -229,9 +270,9 @@ A possible starting schema: `projects`, `psus`, `configurations`, `tests`
 `audit_log`. Python's built-in `sqlite3` module means there's no server to install, and it
 works inside a PyInstaller build.
 
-**Junior-sized first steps:** write read-only SQL reports against an exported database,
-build a one-way export from existing `.aut` files into SQLite, and add the audit table.
-Leave the cut-over from pickle to SQLite (the migration plan) to a senior engineer.
+**Suggested order:** add the audit table and write each reading to SQLite as it's taken,
+then build a one-way export from existing `.aut` files. Switch save/load from pickle to
+SQLite last, with a migration plan so old projects still open.
 
 ---
 
@@ -253,7 +294,7 @@ Leave the cut-over from pickle to SQLite (the migration plan) to a senior engine
 
 Based on the code reviewed so far (about 95% of the Python source):
 
-| Area | Share of codebase | Difficulty for a junior |
+| Area | Share of codebase | Ramp-up difficulty |
 |---|---|---|
 | Tkinter GUI and state management | ~35% | Medium: lots of code, but patterns repeat |
 | Instrument communication | ~25% | **High:** protocols, hardware, safety |
@@ -341,3 +382,4 @@ folder (see its `__main__` block).
 | 3 | 2026-09-23 | Reviewed `test_scripts.py`, `results.py`, `vxi11.py`, and two report templates. Confirmed the domain as IEC 62368-1 / 60950-1 report tables. Added test-procedure responsibilities, matplotlib-in-Tkinter, time-series and stability logic, truthiness, vendored-library handling, and ambient correction. Added bugs #14–19 and three new senior-review items (inconsistent ambient values, the manual-complete override, re-entrancy). Added the template row map. Updated the skill weighting. |
 | 4 | 2026-09-23 | Added a candidate-facing job posting (`autotherm-junior-developer-job-posting.md`) built from the required and preferred qualifications. |
 | 5 | 2026-09-24 | Made **SQL** a required qualification in both the internal description and the job posting. Added a responsibility and a SQL roadmap section that explains why: replacing pickle files, an audit trail, cross-project queries, and one place for the ambient value. |
+| 6 | 2026-09-28 | Re-scoped to a mid-level **Safety Test and Automation Engineer** (hybrid lab testing and software). Renamed both files. Added safety-testing and automation-expansion responsibilities, aligned minimum and preferred qualifications with the new posting, added an interview-topics table, a mid-level 90-day plan, and lab-lead sign-off in place of senior-engineer escalation. |
